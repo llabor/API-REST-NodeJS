@@ -1,0 +1,46 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/mixins/gesture-event-listeners.html">
+<link rel="import" href="../emisor-evento/emisor-evento.html">
+
+<dom-module id="gestor-evento">
+ <template>
+   <style>
+     :host {
+       display: block;
+     }
+   </style>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+   <h1>Yo soy tu padre</h1>
+   <!-- Anidamos el emisor en el receptor -->
+   <emisor-evento on-myevent="processEvent"></emisor-evento>
+   <receptor-evento id="receptor"></receptor-evento>
+
+ </template>
+
+ <script>
+   /**
+    * @customElement
+    * @polymer
+    */
+   class GestorEvento extends Polymer.GestureEventListeners(Polymer.Element) {
+     static get is() { return 'gestor-evento'; }
+     static get properties() {
+       return {
+       };
+     }
+
+     processEvent(e) {
+       console.log("Capturado evento del emisor");
+       console.log(e);
+       // con el $ accedemos al elemento shadow dom
+      // this.$.receptor.showData(e.detail);
+       // se puede acceder a un método de otro componente polymer pero no
+       // es recomendable, preferiblemente con Propiedades
+       this.$.receptor.course = e.detail.course;
+       this.$.receptor.year = e.detail.year;
+     }
+   }
+
+   window.customElements.define(GestorEvento.is, GestorEvento);
+ </script>
+</dom-module>

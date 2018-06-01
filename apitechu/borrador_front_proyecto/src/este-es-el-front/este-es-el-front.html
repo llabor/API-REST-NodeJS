@@ -1,0 +1,57 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<!-- Definición de un componente -->
+<dom-module id="este-es-el-front">
+  <!-- Plantilla del componente -->
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <!-- prop1 definida en línea 24; enlace one-way
+    [[ ]] one-way
+    {{ }} two-way binding -->
+  <!--  <h2>Buenos días [[prop1]]!</h2> -->
+    <h2>Soy [[first_name]] [[last_name]]</h2>
+    <h2>y tengo [[age]] años</h2>
+    <input type="text" value="{{first_name::input}}"/>
+    <!-- "::input" para que funcione el two-way en Polymer -->
+    <input type="range" min="18" max="70" value={{age::input}} />
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class EsteEsElFront extends Polymer.Element {
+      // Funciones estáticas para no tener que instanciarlas
+      // get = getters (es semántico)
+      static get is() { return 'este-es-el-front'; } //etiqueta del componente
+      static get properties() {
+        return {
+          // OJO aquí, muy fácil equivocarse
+          first_name: {
+            type: String
+          }, last_name: {
+            type: String
+          }, age: {
+            type: Number
+          }
+        };
+          /*
+          }
+          prop1: {
+            type: String,
+            //value: 'este-es-el-front'
+            value: 'Ezequiel!'
+          } */
+      }
+    }
+// window es el objeto padre de la paǵina
+// EsteEsElFront.is (linea 24)
+// Aquí se registra el custom element en la ventana del navegador
+    window.customElements.define(EsteEsElFront.is, EsteEsElFront);
+  </script>
+</dom-module>

@@ -1,0 +1,58 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="receptor-evento">
+ <template>
+   <style>
+     :host {
+       display: block;
+     }
+   </style>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+   <!-- Vamos a escribir lo que recojamos en el evento del emisor-->
+   <h3>Soy el Receptor</h3>
+   <h3>Este curso es {{course}}</h3>
+   <h3>en el año {{year}}</h3>
+   <!-- podría ser one-way binding también -->
+   <!-- el input es para ver funcionamiento del Observer -->
+   <input type="text" value="{{course::input}}" />
+ </template>
+
+ <script>
+   /**
+    * @customElement
+    * @polymer
+    */
+   class ReceptorEvento extends Polymer.Element {
+     static get is() { return 'receptor-evento'; }
+     static get properties() {
+       return {
+         // Añadimos esto nuevo....
+         course: {
+          type : String,
+          observador: '_courseChanged'  // Observer
+        },
+        year: {
+          type : String
+        }
+       };
+     }
+     // Función para mostrar los datos recibidos del evento
+         showData(data){
+           console.log("Datos recibidos en el receptor");
+           console.log(data);
+           this.course = data.course;
+           this.year = data.year;
+         }
+
+         // El nombre de esta función es por convención
+         _courseChanged(newValue, oldValue){
+           console.log("El valor de course ha cambiado.");
+           console.log("Valor antiguo: " + oldValue);
+           console.log("Valor nuevo: " + newValue);
+         }
+   }
+
+   window.customElements.define(ReceptorEvento.is, ReceptorEvento);
+ </script>
+</dom-module>

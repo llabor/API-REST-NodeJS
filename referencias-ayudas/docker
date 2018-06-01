@@ -1,0 +1,46 @@
+sudo docker images
+sudo docker ps (-a)
+sudo docker run nombreimagen &
+
+sudo docker run --name cliente
+-p 3000:3000
+--network redtechu
+imagenapitechu4ed &
+
+sudo docker run --name cliente
+-p 3001:3000
+--network redtechu
+imagenapitechu4ed &
+
+sudodocker exec -it apimolona bash
+
+sudo docker network ls
+sudo docker network inspect <nombre_interfaz>
+
+sudo docker stop servidor
+sudo docker stop cliente
+
+curl http://172.10.18.3:3000/apitechu/v1
+
+sudo docker volume ls
+sudo docker volume create --name volumentechu
+
+
+rm .dockerignore ????
+
+sudo -s
+
+sudo docker build -t imageapitechu4ed .
+
+sudo docker run -p 3000:3000 --name apimolona --volume volumentechu:/logs imagenapitechu4ed &
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,7 @@
+{
+  "name": "frontproyecto-app",
+  "short_name": "frontproyecto-app",
+  "description": "descripcion",
+  "start_url": "/",
+  "display": "standalone"
+}

@@ -1,0 +1,96 @@
+## Instalar Git
+sudo apt install git
+
+## Configurar nuestro nombre de usuario y dirección de correo electrónico
+## necesario para poder hacer 'commit'
+git config --global user.name "ezequiel"
+git config --global user.email ezequiel@correo.es
+(--global para establecerlos en la máquina)
+
+## Ver nuestra configuración
+git config --list
+git config -l
+
+## Crear repositorio desde cero
+mkdir repo_1
+cd repo_1
+git init
+
+## Clonar repositorio existente
+git clone https://github.com/llabor/Test
+
+## Registrar archivo (pasarlo del depósito inicial(workspace) a Stage/Index)
+git add <file>
+
+## Volverlo al estado inicial
+git reset <file>
+
+## Pasar del estado Stage a HEAD en local
+git commit -m "descripción del commit"
+
+## Añade y hacer commit al mismo tiempo
+git commit -a 
+
+## Devolver al estado Stage
+git reset HEAD~
+
+## Pasar todo al estado intermedio (Stage)
+git add -A
+
+## Pasar todo lo nuevo y modificado a Stage, pero no lo borrado
+git add .
+
+## Pasar a Stage todo lo modificado o borrado, pero no lo nuevo
+git add -u
+
+## Ver estado del repositorio
+git status
+
+## Ver qué repositorios remotos tenemos (URLs)
+git remote -v
+## fetch (descargar cambios)
+## push (publicar cambios)
+
+## Añadir la URL del repositorio remoto
+git remote add <alias_repositorio> <url>
+git remote add mirepo https://llabor@bitbucket.org/llabor/repoinicial.git
+git remote add mirepo https://bitbucket.org/llabor/repoinicial.git (te pedirá us y pss al hacer un push)
+
+## Desvincular repositorio URL
+git remote remove origin
+
+## Subir/Publicar cambios en 'origin' (alias)
+git push -u origin master
+## --force (forzar cambios cuando algún tipo de conflicto)
+## -u (upload)
+
+## Comprobar si mi repo local está actualizado con el remoto
+git remote show [nombre]
+
+## Obtener la información del repositorio remoto
+git fetch [nombre]
+# Ahora el repositorio remoto está accesible localmente
+
+## Actualizar repositorio local (sincronizar con remoto)
+git pull
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

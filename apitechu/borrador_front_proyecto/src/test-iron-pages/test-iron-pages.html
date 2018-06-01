@@ -1,0 +1,38 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="test-iron-pages">
+ <template>
+   <style>
+     :host {
+       display: block;
+     }
+   </style>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+   <div class="jumbotron">
+     <h1>Test IRON PAGES</h1>
+   </div>
+   <!-- En función de la propiedad 'selected' se seleccionará un
+        iron-pages u otro -->
+   <iron-pages selected="[[componentName]]" placeholder="Select a component.">
+     <div component-name="login-usuario"><login-usuario></login-usuario></div>
+     <div component-name="visor-usuario"><visor-usuario id="1"></visor-usuario></div>
+     <div component-name="visor-cuentas"><visor-cuentas userid="10"></visor-cuentas></div>
+   </iron-pages>
+ </template>
+
+ <script>
+   /**
+    * @customElement
+    * @polymer
+    */
+   class TestIronPages extends Polymer.Element {
+     static get is() { return 'test-iron-pages'; }
+     static get properties() {
+       return {
+       };
+     }
+   }
+
+   window.customElements.define(TestIronPages.is, TestIronPages);
+ </script>
+</dom-module>

@@ -1,0 +1,12 @@
+// Instalar el gestor de dependencias
+npm install -g bower
+bower --version
+
+// Instalar Polymer
+npm install -g polymer-cli
+
+// Iniciar/crear proyecto
+polymer init  (seleccionar 'polymer-2-application')
+
+//
+bower install iron-ajax --save

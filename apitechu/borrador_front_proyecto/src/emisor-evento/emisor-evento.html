@@ -1,0 +1,50 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/mixins/gesture-event-listeners.html">
+
+<dom-module id="emisor-evento">
+ <template>
+   <style>
+     :host {
+       display: block;
+     }
+   </style>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+   <h3>Soy el Emisor</h3>
+   <button on-click="sendEvent">No pulsar</button>
+ </template>
+
+ <script>
+   /**
+    * @customElement
+    * @polymer
+    */
+   class EmisorEvento extends Polymer.GestureEventListeners(Polymer.Element) {
+     static get is() { return 'emisor-evento'; }
+     static get properties() {
+       return {
+       };
+     }
+
+     sendEvent(e) {
+       console.log("Se ha pulsado el botón");
+       console.log(e);
+
+       this.dispatchEvent(
+         //lanzamos un custom event
+         new CustomEvent(
+           "myevent",
+           {
+             "detail" :
+             { // info para que los componentes se comuniquen entre ellos
+               "curso" : "TechU",
+               "year" : "2018"
+             }
+           }
+         )
+       ); // Main
+     }
+   }
+
+   window.customElements.define(EmisorEvento.is, EmisorEvento);
+ </script>
+</dom-module>

@@ -1,0 +1,63 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html"/>
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html"/>
+
+<!-- Definición del componente -->
+<dom-module id="visor-cuentas">
+  <!-- Plantilla del componente -->
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <h1>Sus cuentas</h1>
+    <!-- Template dentro de otro template;
+         foreach que itera sobre items -->
+    <template is="dom-repeat" items="{{accounts}}">
+        <h3>IBAN - {{item.iban}}</h3>
+        <h3>Saldo - {{item.balance}}</h3>
+      </br>
+    </template>
+<!--auto="" y no ponerlo es lo mismo: significa que el componente NO
+    se lanzará automáticamente -->
+    <iron-ajax
+      auto=""
+      id="getAccounts"
+      url="http://localhost:3000/apitechu/v2/users/{{user_id}}/accounts"
+      handle-as="json"
+      on-response="showData">
+      <!-- showData es una función manejadora que debe estar definida
+            dentro de la clase VisorUsuario -->
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class VisorCuentas extends Polymer.Element {
+      static get is() { return 'visor-cuentas'; }
+      static get properties() {
+        return {
+          user_id: {
+            type: Number
+          }, iban: {
+            type: String
+          }, balance: {
+            type: Number
+          }, accounts: {  // Importante !
+            type: Array
+          }
+        };
+      }
+
+      showData(data){
+        console.log(data.detail.response);
+        this.accounts = data.detail.response;
+      }
+    }
+// Aquí se registra el custom element en la ventana del navegador
+    window.customElements.define(VisorCuentas.is, VisorCuentas);
+  </script>
+</dom-module>

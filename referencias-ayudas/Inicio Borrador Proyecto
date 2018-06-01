@@ -1,0 +1,338 @@
+1. Crear carpeta borrador-proyecto
+2. node -v
+3. npm -v  (gestor de paquetes/dependencias)
+4. npm init
+	name: apitechu
+	version: 0.0.1
+	description: API TechU Molona
+	entry point: server.js (podemos dejar index.js)
+	test command: 
+	git repository:
+	keywords: API, TechU, BBVA, ...
+	author:
+	license:
+5. Lo anterior creará el archivo package.json
+6. Editar el archivo server.js con Atom
+	console.log("Hola Mundo");
+7. Desde la consola de ubuntu:  node server.js  --> Hola Mundo
+8. Instalar framework Express
+	npm install express --save  (--save para que la dependencia persista en el archivo package.json)
+	Da un warning: npm WARN apitechu@0.0.1 No repository field. (es normal pq no indicamos repositorio)
+9. Instalar esta librería sólo para entorno de desarrollo (-dev) (no para producción):
+	npm install nodemon --save-dev
+
+10. desde ATOM -> Editar -> Preferencias -> Packages ---> autocomplete-modules (Install Packages)
+
+11. Si añadimos la linea: "start": "nodemon server.js" en package.json cada vez que hagamos un cambio en server.js nuestra app se reiniciará con los cambios actualizados.
+A partir de ahora para lanzar la aplicación:   npm start
+
+12. mockaroo.com (generar datos aleatoriamente)
+
+13. npm install fs --save
+
+****** Métodos de enviar información al servidor ***************
+
+Probar petición POST en postman:
+http://localhost:3000/apitechu/v1/monstruo/param1/param2?queryparam1=valor1&queryparam2=valor2
+
+Output:
+API escuchando en el puerto 3000
+Paramétros
+{ p1: 'param1', p2: 'param2' }
+Query String
+{ queryparam1: 'valor1', queryparam2: 'valor2' }
+Body
+**undefined
+Headers
+{ host: 'localhost:3000',
+  connection: 'keep-alive',
+  'content-length': '23',
+  last_name: 'Llarena',
+  origin: 'chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop',
+  'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/65.0.3325.181 Chrome/65.0.3325.181 Safari/537.36',
+  first_name: 'Ezequiel',
+  'content-type': 'application/json',
+  'cache-control': 'no-cache',
+  country: 'España',
+  'postman-token': '31d34c76-d14a-88f2-eeb4-0c2ec26405c2',
+  accept: '*/*',
+  'accept-encoding': 'gzip, deflate, br',
+  'accept-language': 'es-ES,es;q=0.9' }
+
+**Para que funcione la opción del body, necesitamos un "body-parser":
+Body
+{ body1: 'valorbody1' }
+
+
+14. Creamos archivo .gitignore (ubuntu: touch .gitignore) y aquí le decimos qué archivos del proyecto queremos que ignore a la hora de subirlos al repositorio.
+
+Intro: node_modules contiene todas las denpendencias (recursivas), o sea es pesado.
+
+En package.json están las dependencias del proyecto.
+
+'npm install' lee el package.json y se trae las dpendencias que necesita de node_modules
+
+Entonces en el control de versiones (git) no necesitamos tener node_modules.
+
+******* Subir proyecto a Gitbucket ******************
+git init
+git add .
+git commit -m "Primera versión API REST"
+git remote add origin <URL_REPO>
+git push -u origin master
+
+****** IMPORTANTE 
+Si me equivoco al hacer git remote a una URL que no es correcta:
+alumno@BootcampVM:~/borrador-proyecto$ git remote add origin URL_REPO (AQUÍ ERROR URL_REPO)
+alumno@BootcampVM:~/borrador-proyecto$ git status
+En la rama master
+nothing to commit, working directory clean
+alumno@BootcampVM:~/borrador-proyecto$ git remote -v
+origin	URL_REPO (fetch)
+origin	URL_REPO (push)
+alumno@BootcampVM:~/borrador-proyecto$ git remote add origin https://llabor@bitbucket.org/llabor/borrador-proyecto.git
+
+AQUI LO SOLUCIONAMOS:
+alumno@BootcampVM:~/borrador-proyecto$ git remote remove origin
+alumno@BootcampVM:~/borrador-proyecto$ git remote -v
+alumno@BootcampVM:~/borrador-proyecto$  (si no sale nada --> lo hemos borrado OKOK)
+
+
+
+
+***** Hacer un login y logout ****************
+for (user of users) {
+Login
+ 	if...
+	user.logged = true;
+}
+
+Logout
+delete user.logged
+
+Enunciado del ejercicio/práctica: (Solución en server-v4.js)
+
+- Login -
+POST a /apitechu/v1/login
+
+En el body (opción raw) un JSON tal que:
+
+{
+ "email" : "test@test.com",
+ "password" : "1234"
+}
+
+Ha de buscar el usuario con email igual al enviado.
+Si no está el email, login incorrecto.
+
+Si está el email y el password es igual al enviado:
+login correcto; si no es igual el password, login
+incorrecto.
+
+En el caso de login correcto:
+ · Añadir al usuario una propiedad "logged" : true
+ · Devolver la id de usuario.
+
+Ejemplo de respuestas:
+
+Login incorrecto
+{
+ "mensaje" : "Login incorrecto"
+}
+
+Login correcto
+{
+ "mensaje" : "Login correcto",
+ "idUsuario" : 1
+}
+
+- Logout -
+POST a /apitechu/v1/logout
+
+En el body un JSON tal que:
+
+{
+ "id" : 1
+}
+
+Tanto para logout correcto como incorrecto, devolver
+un mensaje informativo.
+
+Ejemplo de respuestas:
+
+Logout incorrecto
+{
+ "mensaje" : "logout incorrecto"
+}
+
+Logout correcto
+{
+ "mensaje" : "logout correcto"
+ "idUsuario" : 1
+}
+
+
+***************** MOCHA (JUnit) ******************************
+Usaremos librería CHAI (Aserciones)
+
+1º - Arrange: condición a probar
+2º - Act: lanzar una función que queremos probar
+3º - Assert: comprobamos que los tests son correctos (Expected =? Actual)
+
+Instalación:
+en nuestro directorio del proyecto hacer...
+npm install mocha --save-dev
+npm install chai --save-dev
+npm install chai-http --save-dev
+
+*** Para lanzar el test:
+en el dir proy...
+
+npm test
+
+
+******************* mLab ************************************
+mLab = Database-as-a-Service for MongoDB
+
+1. Registrarnos en mLab: 
+
+(apitechu-db, user: apitechu, password: TechU2018)
+
+
+**** Enlaces ayuda 3ra semana:
+· Usaremos mLab, DaaS de MongoDB, breve introducción a MongoDB:
+   https://docs.mongodb.com/manual/introduction/
+
+· Consumiremos la API REST de mLab para obtener nuestros usuarios, una referencia:
+   http://docs.mlab.com/data-api/
+
+· Y desplegaremos nuestra API REST en contenedores Docker:
+   https://www.docker.com/what-container
+
+
+En mLab:
+
+1. Crear un nuevo despliegue (Create a new deployment)
+2. Sandbox
+3. Elegir región
+4. nombre BD mongodb: apitechuelb5ed
+5. Ir a Users -> Add database user (admin, TechU2017)
+
+CONCEPTOS MONGODB:
+Collection = Tabla
+Document = Registro
+
+
+6. Add new collection: user
+7. Create document (registro): {"name" : "Ezequiel"} el campo es "name". Se definen en formato JSON.
+Notas:   MongoDB no tiene joins al uso, entonces, si queremos relacionar usamos EMBED (Ej: {"name":"Ezequiel", "friends":["1","2","3",...], "friendsembedded":["name":"Edgar"},{"name":"Oscar"}]
+Resumen: esto no es BDRelac (DML, DDL...) porneso podemos tener documentos con distintos formatos/esquemas
+
+****** Studio 3T for MongoDB ************************
+
+1. Connect (datos de la bd MongoDB)
+
+Desde mLab, obtener estos datos:
+
+mongodb://<dbuser>:<dbpassword>@ds117200.mlab.com:17200/apitechuelb5ed
+
+mongodb://<dbuser>:<dbpassword>@
+ds117200.mlab.com (server/host)
+17200 (puerto)
+apitechuelb5ed
+
+Authentication mode: Basic (Admin, TechU2017)
+Authentication DB: apitechuelb5ed
+
+Para ver contenido de la collection: click derecho sobre user, Open Collection Tab
+
+Consumo de la API REST de mLab:
+1.desde mLab (arriba derecha) hacer click sobre nombre del usuario
+2.Tenemos que activar uso de la API REST de mLAB:
+
+ir al final de la página:
+Data API access: debe estar en "Enabled"
+
+Referencia:
+http://docs.mlab.com/data-api/  (Ver apartados 'API Authentication' y 'List documents'... 
+ 
+Probar URL:
+https://api.mlab.com/api/1/databases?apiKey=NQCR6_EMDAdqyM6VEWg3scF_k32uwvHF
+(coger API Key de mLAb)
+en el navegador debe aparecer:
+[ "apitechuelb5ed" ]
+
+Si añadimos nuestra bd a la URL despues de databases:
+https://api.mlab.com/api/1/databases/apitechuelb5ed?apiKey=NQCR6_EMDAdqyM6VEWg3scF_k32uwvHF
+esto nos devuelve la connection string
+
+Si añadimos "collections":
+https://api.mlab.com/api/1/databases/apitechuelb5ed/collections?apiKey=NQCR6_EMDAdqyM6VEWg3scF_k32uwvHF
+
+Para ver contenido tabla 'user':
+https://api.mlab.com/api/1/databases/apitechuelb5ed/collections/user?apiKey=NQCR6_EMDAdqyM6VEWg3scF_k32uwvHF
+
+*** Ahora vamos a importar los datos de Mokaroo:
+desde Studio 3T, botón derecho sobre user, Import Data, Json...
+
+*** Probamos API REST de mLab con Postman:
+https://api.mlab.com/api/1/databases/apitechuelb5ed/collections/user?q={"first_name":"Gianina"}&apiKey=NQCR6_EMDAdqyM6VEWg3scF_k32uwvHF
+(Nota: MongoDB siempre devuelve la id por defecto, para indicar que no la devuelva:
+
+https://api.mlab.com/api/1/databases/apitechuelb5ed/collections/user?q={"first_name":"Gianina"}&f={"firs_name":1,"last_name":1,"_id":0}&apiKey=NQCR6_EMDAdqyM6VEWg3scF_k32uwvHF)
+
+Si queremos ver todos los registros:
+https://api.mlab.com/api/1/databases/apitechuelb5ed/collections/user?f={"first_name":1,"last_name":1,"_id":0}&apiKey=NQCR6_EMDAdqyM6VEWg3scF_k32uwvHF
+
+Para ordenar:
+https://api.mlab.com/api/1/databases/apitechuelb5ed/collections/user?f={"first_name":1,"last_name":1,"_id":0}&s={"last_name":1}&apiKey=NQCR6_EMDAdqyM6VEWg3scF_k32uwvHF
+
+Para limitar numero registros:
+https://api.mlab.com/api/1/databases/apitechuelb5ed/collections/user?f={"first_name":1,"last_name":1,"_id":0}&s={"last_name":1}&l=5&apiKey=NQCR6_EMDAdqyM6VEWg3scF_k32uwvH
+
+Referencias Slack:
+https://api.mlab.com/api/1/databases/apitechucgt5ed/collections/user?q={"first_name" : "Quentin"}&apiKey=nGdWrGnI4fjDax8UoRdxCe0RmtiZ3qEd
+
+https://api.mlab.com/api/1/databases/apitechucgt5ed/collections/user?q={"first_name" : "Quentin"}&f={"first_name":1,"last_name":1,"_id":0}&apiKey=nGdWrGnI4fjDax8UoRdxCe0RmtiZ3qEd
+
+https://api.mlab.com/api/1/databases/apitechucgt5ed/collections/user?f={"first_name":1,"last_name":1,"_id":0}&apiKey=nGdWrGnI4fjDax8UoRdxCe0RmtiZ3qEd
+
+https://api.mlab.com/api/1/databases/apitechucgt5ed/collections/user?f={"first_name":1,"last_name":1,"_id":0}&s={"last_name":1}&apiKey=nGdWrGnI4fjDax8UoRdxCe0RmtiZ3qEd
+
+https://api.mlab.com/api/1/databases/apitechucgt5ed/collections/user?f={"first_name":1,"last_name":1,"_id":0}&s={"last_name":1}&l=5&apiKey=nGdWrGnI4fjDax8UoRdxCe0RmtiZ3qEd
+
+
+(NOTA: apikey siempre va al final de la URL. El enviar el Apikey en la URL no es seguro, normalmente se hace en las cabeceras HTTP)
+
+
+var query = 'q={"email": "' + email + '", "password":"' + password + '"}';
+
+var putBody = '{"$set":{"logged":true}}';
+
+httpClient.put("user?" + query + "&" + mLabAPIkey, JSON.parse(putBody),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

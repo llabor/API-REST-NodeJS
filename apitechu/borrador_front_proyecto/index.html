@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>frontproyecto-app</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <meta name="description" content="descripcion">
+
+    <!-- See https://goo.gl/OOhYW5 -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Con estilos Bootstrap
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+-->
+    <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+<!-- Importamos componentes-->
+<!--    <link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="/src/este-es-el-front/este-es-el-front.html">
+    <link rel="import" href="/src/login-usuario/login-usuario.html">
+    <link rel="import" href="/src/visor-usuario/visor-usuario.html">
+    <link rel="import" href="/src/visor-cuentas/visor-cuentas.html">
+    <link rel="import" href="/src/emisor-evento/emisor-evento.html">
+    <link rel="import" href="/bower_components/app-router/app-router.html">
+    <link rel="import" href="/src/gestor-evento/gestor-evento.html">
+    <link rel="import" href="/src/receptor-evento/receptor-evento.html"> -->
+    <link rel="import" href="/src/test-iron-pages/test-iron-pages.html">
+
+  </head>
+  <body>
+    <!-- Este es un componente (custom element) que se renderiza en la página -->
+<!--    <este-es-el-front first_name="Ezequiel" last_name="Llarena" age="77"></este-es-el-front> -->
+      <!-- probar aislamiento de componentes duplicando la linea anterior
+    <este-es-el-front first_name="Ezequiel" last_name="Llarena" age="77"></este-es-el-front>
+    -->
+    <!-- Probar estos cambios...
+    <visor-usuario first_name="VISION"></visor-usuario>-->
+  <!--  <visor-usuario id="7"></visor-usuario> -->
+  <h1>Bienvenido a BBVA</h1>
+<!--  <login-usuario id="19"></login-usuario> -->
+
+<!-- Forma 1 routing (más compleja) **************************************************** -->
+<!-- <app-router>
+     <app-route path="/"></app-route> válida para URL 127.0.0.1:8081/-->
+<!--   <app-route path="/login" import="/src/login-usuario/login-usuario.html"></app-route>
+     <app-route path="/user/:id" import="/src/visor-usuario/visor-usuario.html"></app-route>
+     <app-route path="/user/:user_id/accounts" import="/src/visor-cuentas/visor-cuentas.html"></app-route>
+     <app-route path="*" import="/src/page-not-found/page-not-found.html"></app-route> -->
+     <!-- si por ejemplo en la URL aparace algo como http://127.0.0.1:8081/jjjjjjj
+</app-router> -->
+  <!--  <visor-cuentas user_id="1"></visor-cuentas>
+  <h3>Esto NO es Polymer</h3> -->
+  <!--  <este-es-el-front prop1="Duplico componente..."></este-es-el-front> -->
+
+  <!-- Forma 2 routing *** **************************************************** -->
+
+<!--  <emisor-evento></emisor-evento>
+<gestor-evento></gestor-evento> -->
+
+<test-iron-pages></test-iron-pages>
+
+  </body>
+</html>
