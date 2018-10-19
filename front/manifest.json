@@ -1,0 +1,7 @@
+{
+  "name": "colapi_front",
+  "short_name": "colapi_front",
+  "description": "first the component front colapi",
+  "start_url": "/",
+  "display": "standalone"
+}
