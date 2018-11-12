@@ -1,2 +1,6 @@
 # API REST
-Ejemplos y documentación
+Ejemplos y documentación:
+- Node JS
+- express
+- Polymer
+- MongoDB
