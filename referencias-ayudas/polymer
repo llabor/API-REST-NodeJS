@@ -4,9 +4,11 @@ bower --version
 
 // Instalar Polymer
 npm install -g polymer-cli
+// Instalar versión concreta
+// npm install -g polymer-cli@{version}
 
 // Iniciar/crear proyecto
 polymer init  (seleccionar 'polymer-2-application')
 
-//
+// Instalar componente Polymer iron-ajax y registrarlo en bower.json 
 bower install iron-ajax --save
