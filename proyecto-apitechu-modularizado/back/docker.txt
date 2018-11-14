@@ -1,0 +1,48 @@
+docker
+giovannyalberto.martin@bbvaseguros.co	
+giogio22
+
+
+sudo yum install -y docker
+sudo service docker start --> para q inicie
+
+sudo chkconfig docker on --> se inicie siempre
+
+sudo usermod -a -G docker ec2-user
+
+docker run hello-world
+
+listar contenedores
+docker ps -a
+
+docker rm -->eliminar
+
+//
+
+touch Dockerfile
+
+/*
+FROM node:carbon
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
+
+RUN npm install
+# If you are building your code for production
+# RUN npm install --only=production
+
+# Bundle app source
+COPY . .
+
+EXPOSE 8080
+CMD [ "npm", "start" ] 
+
+*/
+
+docker build -t giogiogio/node-techu .
+docker run -p 49160:3000 giogiogio/node-techu -->run maquina el segundo puerto es el q colocamos en nuestra applicaicon node

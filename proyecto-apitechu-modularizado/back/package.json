@@ -1,0 +1,27 @@
+{
+  "name": "rest-api-mongo3",
+  "version": "1.0.0",
+  "description": "Proyecto TechU",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "TechU",
+    "BBVA",
+    "Seguros"
+  ],
+  "author": "giovanny martin , jair de la oz",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "jwt-simple": "^0.5.1",
+    "moment": "^2.22.2",
+    "request-json": "^0.6.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5"
+  }
+}

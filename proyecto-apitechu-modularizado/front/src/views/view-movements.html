@@ -1,0 +1,101 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="view-movements">
+  <template>
+  <style>
+    :host { display: block; }
+  </style>
+
+  <link href="../../assets/css/bootstrap.css" rel="stylesheet" />
+  <link href="../../assets/css/style.css" rel="stylesheet" />
+
+  <app-localstorage-document key="data.local" data="{{islog}}"></app-localstorage-document>
+
+  <div class="row">
+       <div class="col-md-12 col-sm-12 col-xs-12">
+           <div class="panel panel-success">
+             <div class="panel-heading">
+                Lista de Movimientos
+             </div>
+             <div class="panel-body">
+                 <div class="table-responsive">
+                     <table class="table table-striped table-bordered table-hover">
+                         <thead>
+                             <tr class="text-center">
+                                 <th style="width: 30%;">NUMERO DE CUENTA</th>
+                                 <th>MOVIMIENTOS</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <template is="dom-repeat" items={{listMovements}} as="val">
+                                 <tr width="100">
+                                     <td style="vertical-align: middle;">{{val.idcuenta}}</td>
+                                     <td style="padding: unset;">
+                                       <table class="table table-striped table-bordered table-hover" style="margin: unset;"><tbody>
+                                       <template is="dom-repeat" items="{{val.movimientos}}" as="itemsMov">
+                                         <tr>
+                                            <td style="width: 5%;">{{itemsMov.idmov}}</td>
+                                            <td style="width: 25%;">{{itemsMov.fecha}}</td>
+                                            <td style="width: 50%;">{{itemsMov.descripcion}}</td>
+                                            <td style="width: 20%;">{{itemsMov.importe}}</td>
+                                          </tr>
+                                       </template>
+                                     </tbody>
+                                   </table>
+                                    </td>
+                                 </tr>
+                               </template>
+                         </tbody>
+                     </table>
+                 </div>
+             </div>
+           </div>
+         </div>
+  </div>
+
+  <iron-ajax
+    id="doMovementsGet"
+    auto=""
+    url=[[api.api_host]][[api.api_mov]]
+    content-type="application/json"
+    method="GET"
+    handle-as="json"
+    on-response="movementsAJAXResponse"
+    on-error="showErrorMovements"
+    headers$='{"authorization": "{{islog.token}}"}'>
+
+  </template>
+  <script>
+  class ViewMovements extends Polymer.Element {
+    static get is() { return 'view-movements'; }
+    static get properties() {
+      return {
+        listMovements: {
+          type: Array
+        },
+        api_host: {
+          type: String
+        },
+        api_mov:{
+          type: String
+        },
+        islog: {
+         type: Object,
+         value: {}
+       }
+      };
+    }
+
+    movementsAJAXResponse(data) {
+      this.listMovements=data.detail.response;
+    }
+
+    showErrorMovements(error) {
+      console.log("Error Movements: "+error);
+    }
+
+  }
+
+  window.customElements.define(ViewMovements.is, ViewMovements);
+  </script>
+</dom-module>

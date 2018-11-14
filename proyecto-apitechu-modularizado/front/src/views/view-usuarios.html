@@ -1,0 +1,355 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-styles/default-theme.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../views/view-cuentas.html">
+
+<dom-module id="view-usuarios">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .paper-buton-close{ background-color: #ccc; border-radius: 13px; float: right; min-width: unset !important; margin: 10px; border: solid 2px #b2b2b2; color: #303f9f; padding: unset; width: 26px; text-align: center; }
+
+    </style>
+
+    <link href="../../assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="../../assets/css/style.css" rel="stylesheet" />
+
+  <app-localstorage-document key="data.local" data="{{islog}}"></app-localstorage-document>
+
+  <template is="dom-if" if="{{_isEqualTo(is_account, 'NOK')}}">
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="panel panel-default">
+               <div class="panel-heading">
+                  Crear Usuario
+               </div>
+               <div class="panel-body text-center recent-users-sec">
+                 <button class="btn btn-success"  on-tap='_Insert'>NUEVO USUARIO</button>
+               </div>
+    </div>
+    </div>
+         <div class="col-md-8 col-sm-8 col-xs-12">
+             <div class="panel panel-success">
+
+               <div class="panel-heading">
+                  Lista de Usuarios
+               </div>
+               <div class="panel-body">
+                   <div class="table-responsive">
+                       <table class="table table-striped table-bordered table-hover">
+                           <thead>
+                               <tr class="text-center">
+                                   <th>First Name</th>
+                                   <th>Last Name</th>
+                                   <th>Email</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
+                                    <th>Cuentas</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               <template is="dom-repeat" items={{users}} as="val">
+                                   <tr>
+                                       <td>{{val.first_name}}</td>
+                                       <td>{{val.last_name}}</td>
+                                       <td>{{val.email}}</td>
+                                       <td> <button class="btn btn-success"  on-tap='_Edit' data-args$='[[val]]' >Editar</button></td>
+                                       <td><button  class="btn btn-success"  on-tap='_Delete' data-args$='[[val]]' >Eliminar</button></td>
+                                       <td><button  class="btn btn-success" on-volver-ok="volver" on-tap='_Account' data-args$='[[val]]' >Cuentas</button></td>
+                                   </tr>
+                                 </template>
+                           </tbody>
+                       </table>
+                   </div>
+               </div>
+           </div>
+    </div>
+    </template >
+
+<!-- VIEW CUENTAS-->
+    <template is="dom-if" if="{{_isEqualTo(is_account, 'OK')}}" >
+           <view-cuentas api=[[api]] is_mov="NOK" is_account={{is_account}} user=[[user]]  ></view-cuentas>
+    </template >
+
+<!-- POP CREAR -EDIT USUARIO-->
+    <paper-dialog id='popLocal' modal style="overflow-y: scroll;">
+      <paper-button dialog-dismiss class="paper-buton-close"> X </paper-button>
+      </br>
+      <div class="alert alert-info" role="alert" style="text-align:center;">OPERACION USUARIO</div>
+         <div class="card" style="width: 18rem;">
+           <img src="../../assets/img/user.png" class="img-fluid" alt="Responsive image" style="width:100%">
+           <div class="card-body">
+            <div class="form-group">
+              <label for="exampleInputEmail1">First Name</label>
+              <input type="text" class="form-control" id="first_name" aria-describedby="emailHelp" placeholder="Ingresar First Name" value="{{user.first_name::input}}" required>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Last Name</label>
+              <input type="text" class="form-control" id="last_name" aria-describedby="emailHelp" placeholder="Ingresar Last Name" value="{{user.last_name::input}}" required>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email</label>
+              <input type="email" class="form-control" id="last_name" aria-describedby="emailHelp" placeholder="Ingresar Email" value="{{user.email::input}}" required>
+            </div>
+            <template is="dom-if" if="{{isInsert}}">
+             <div class="form-group">
+               <label for="exampleInputEmail1">Password</label>
+               <input type="password" class="form-control" id="pass" aria-describedby="emailHelp" placeholder="Ingresar Password" value="{{user.password::input}}" required>
+             </div>
+            </template>
+            <template is="dom-if" if="{{!isInsert}}">
+              <button class="btn btn-success" on<div hidden$="{{isvar8}}" class="alert alert-danger">
+              <strong>Email o Password incorrecto!</strong>-tap="_UpdateService">Actualizar</button>
+            </template>
+            <template is="dom-if" if="{{isInsert}}">
+              <button class="btn btn-success" on-tap="_InsertService">Aceptar</button>
+            </template>
+           </div>
+         </div>
+    </paper-dialog><div hidden$="{{isvar8}}" class="alert alert-danger">
+              <strong>Email o Password incorrecto!</strong>
+
+<!-- POP ELIMINAR USUARIO-->
+    <paper-dialog id='popLocalConfirm' modal>
+      <paper-button dialog-dismiss class="paper-buton-close"> X </paper-button>
+    </br><div hidden$="{{isvar8}}" class="alert alert-danger">
+              <strong>Email o Password incorrecto!</strong>
+      <div class="alert alert-info" role="alert" style="text-align:center;">CONFIRMACION</div>
+         <div class="card" style="width: 18rem;text-align:center;">
+           <img src="../../assets/img/confirma.png" class="img-fluid" alt="Responsive image" style="width:50%">
+           <div class="card-body">
+             <br />
+             <br />
+            <div class="form-group">
+              <label>Confirme la eliminacion del registro?</label>
+            </div>
+              <button class="btn btn-success" on-tap="_DeleteService">Confirmar</button>
+           </div>
+         </div>
+    </paper-dialog>
+
+<!--MENSAJES-->
+    <paper-dialog id='messageGlobal' modal>
+      <paper-button dialog-dismiss class="paper-buton-close"> X </paper-button>
+      <div class="{{messageStyle::input}}" role="alert">
+        {{message::input}}
+      </div>
+    </paper-dialog>
+
+
+
+<!-- API AJAX-->
+    <iron-ajax
+      id="doUsersGet"
+      auto=""
+      url=[[api.api_host]][[api.api_users]]
+      content-type="application/json"
+      method="GET"<div hidden$="{{isvar8}}" class="alert alert-danger">
+              <strong>Email o Password incorrecto!</strong>
+      handle-as="json"
+      on-response="usersAJAXResponse"
+      on-error="showError"
+      headers$='{"authorization": "{{islog.token}}"}'>
+
+      <iron-ajax
+        id="doUserPost"
+        url=[[api.api_host]][[api.api_users]]
+        content-type="application/json"
+        method="POST"
+        handle-as="json"
+        on-response="userPostAJAXResponse"
+        on-error="showError"
+        headers$='{"authorization": "{{islog.token}}"}'>
+
+    <iron-ajax
+      id="doUserPut"
+      url=[[api.api_host]][[api.api_users]]/[[user.id]]
+      content-type="application/json"
+      method="PUT"
+      handle-as="json"
+      on-response="userPutAJAXResponse"
+      on-error="showError"
+      headers$='{"authorization": "{{islog.token}}"}'>
+
+      <iron-ajax
+        id="doUserDelete"
+        url=[[api.api_host]][[api.api_users]]/[[user.id]]
+        content-type=""
+        method="DELETE"
+        handle-as=""
+        on-response="userDeleteAJAXResponse"
+        on-error="showError"
+        headers$='{"authorization": "{{islog.token}}"}'>
+
+  </template>
+
+  <script>
+    class ViewUsuarios extends Polymer.Element {
+      static get is() { return 'view-usuarios'; }
+      static get properties() {
+        return {
+          users: {
+            type: Array
+          },
+          api: {
+           type: Object
+         },
+          user: {
+            type: Object,
+            value:{}
+          },
+          isInsert: {
+            type: Boolean,
+            value:false
+          },
+          is_account: {
+            type: String,
+            value:"NOK"
+          },
+          islog: {
+           type: Object,
+           value: {}
+         },
+          message: {
+           type: String
+         },
+            messageStyle: {
+           type: String
+         }
+        };
+      }
+
+
+      static get observers() {
+        return [
+          '_is_accountChanged(is_account)'
+        ]
+      }
+
+      _is_accountChanged(){}
+
+    usersAJAXResponse(data) {
+      this.users=data.detail.response;
+    }
+
+    showError(error) {
+      this.message="";
+      this.messageStyle="alert alert-danger";
+      for (var i in error.detail.request.response)
+        this.message+=error.detail.request.response[i].msg+",";
+      this.$.messageGlobal.open();
+    }
+
+    _Edit(e){
+      var val=e.model.val;
+      this.isInsert=false;
+      this.user = {
+        "email" : val.email,
+        "first_name" : val.first_name,
+        "last_name" : val.last_name,
+        "id" : val.id
+      }
+      this.$.popLocal.open();
+      }
+
+      _Account(e){
+        var val=e.model.val;
+        this.isInsert=false;
+        this.user = {
+          "email" : val.email,
+          "first_name" : val.first_name,
+          "last_name" : val.last_name,
+          "id" : val.id
+        }
+        this.is_account="OK";
+        }
+
+    _Insert(){
+      this.user = {};
+      this.isInsert=true;
+      this.$.popLocal.open();
+      }
+
+    _Delete(e){
+      var val=e.model.val;
+      this.user = {
+        "id" : val.id
+      }
+      this.$.popLocalConfirm.open();
+      }
+
+    _InsertService(){
+      this.$.doUserPost.body = JSON.stringify(this.user);
+      this.$.doUserPost.generateRequest();
+      }
+
+    _UpdateService(){
+      this.$.doUserPut.body = JSON.stringify(this.user);
+      this.$.doUserPut.generateRequest();
+      }
+
+    _DeleteService(){
+      this.$.doUserDelete.generateRequest();
+      }
+    userPostAJAXResponse(data) {
+      this.$.doUsersGet.generateRequest();
+      this.$.popLocal.close();
+      }
+
+    userPutAJAXResponse(data) {
+      this.$.doUsersGet.generateRequest();
+      this.$.popLocal.close();
+    }
+
+    userDeleteAJAXResponse(data) {
+      this.$.doUsersGet.genera_InsertService(){
+      this.$.doUserPost.body = JSON.stringify(this.user);
+      this.$.doUserPost.generateRequest();
+      }
+
+    _UpdateService(){
+      this.$.doUserPut.body = JSON.stringify(this.user);
+      this.$.doUserPut.generateRequest();
+      }
+
+    _DeleteService(){
+      this.$.doUserDelete.generateRequest();
+      }teRequest();
+      this.$.popLocalConfirm.close();
+    }_InsertService(){
+      this.$.doUserPost.body = JSON.stringify(this.user);
+      this.$.doUserPost.generateRequest();
+      }
+
+    _UpdateService(){
+      this.$.doUserPut.body = JSON.stringify(this.user);
+      this.$.doUserPut.generateRequest();
+      }
+
+    _DeleteService(){
+      this.$.doUserDelete.generateRequest();
+      }
+
+    _isEqualTo(title, string){
+      return title == string;
+    }
+}_InsertService(){
+      this.$.doUserPost.body = JSON.stringify(this.user);
+      this.$.doUserPost.generateRequest();
+      }
+
+    _UpdateService(){
+      this.$.doUserPut.body = JSON.stringify(this.user);
+      this.$.doUserPut.generateRequest();
+      }
+
+    _DeleteService(){
+      this.$.doUserDelete.generateRequest();
+      }
+
+  window.customElements.define(ViewUsuarios.is, ViewUsuarios);
+  </script>
+</dom-module>

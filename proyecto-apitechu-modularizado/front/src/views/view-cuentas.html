@@ -1,0 +1,132 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-styles/default-theme.html">
+<link rel="import" href="../views/view-mov.html">
+
+<dom-module id="view-cuentas">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <link href="../../assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="../../assets/css/style.css" rel="stylesheet" />
+
+<app-localstorage-document key="data.local" data="{{islog}}"></app-localstorage-document>
+
+<template is="dom-if" if="{{_isEqualTo(is_mov, 'NOK')}}" >
+  <div class="right-div">
+      <a href="#" on-tap="_volver" class="btn btn-danger pull-right">Volver</a>
+  </div>
+
+    <div class="row">
+         <div class="col-md-12 col-sm-12 col-xs-12">
+             <div class="panel panel-success">
+               <div class="panel-heading">
+                  Lista de Cuentas del Usuario {{user.first_name}} {{user.last_name}}
+               </div>
+               <div class="panel-body">
+                   <div class="table-responsive">
+                       <table class="table table-striped table-bordered table-hover">
+                           <thead>
+                               <tr class="text-center">
+                                   <th>IBAN</th>
+                                   <th>Balance</th>
+                                    <th>ver Mov.</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               <template is="dom-repeat" items={{accounts}} as="val">
+                                   <tr>
+                                       <td>{{val.IBAN}}</td>
+                                       <td>{{val.balance}}</td>
+                                       <td> <button class="btn btn-success"  on-tap='_Mov' data-args$='[[val]]' >Mov.</button></td>
+                                   </tr>
+                                 </template>
+                           </tbody>
+                       </table>
+                   </div>
+               </div>
+           </div>
+    </div>
+  </template >
+    <!-- VIEW MOV-->
+        <template is="dom-if" if="{{_isEqualTo(is_mov, 'OK')}}">
+               <view-mov api=[[api]] user=[[user]] account=[[account]] is_mov={{is_mov}} ></view-mov>
+        </template >
+
+
+    <iron-ajax
+      id="doUsersGet"
+      auto=""
+      url=[[api.api_host]][[api.api_users]]/[[user.id]]/[[api.api_accounts]]
+      content-type="application/json"
+      method="GET"
+      handle-as="json"
+      on-response="usersAJAXResponse"
+      on-error="showError"
+      headers$='{"authorization": "{{islog.token}}"}'>
+
+  </template>
+
+  <script>
+    class ViewCuentas extends Polymer.Element {
+      static get is() { return 'view-cuentas'; }
+      static get properties() {
+        return {
+          accounts: {
+            type: Array
+          },
+          user: {
+            type: Object,
+            value:{}
+          },
+          is_mov: {
+            type: String,
+            value:"NOK"
+          },
+          api: {
+            type: Object
+          },
+          account: {
+            type: Object,
+            value: {}
+          },is_account: {
+            type: String,
+            notify: true
+          },
+          islog: {
+           type: Object,
+           value: {}
+         }
+        };
+      }
+
+    usersAJAXResponse(data) {
+      this.accounts=data.detail.response;
+    }
+
+    showError(error) {
+      console.log("error")
+    }
+
+    _volver() {
+      this.is_account="NOK";
+    }
+
+    _isEqualTo(title, string){
+      return title == string;
+    }
+
+    _Mov(e){
+      var val=e.model.val;
+      this.account = val;
+      this.is_mov="OK";
+      }
+
+}
+
+    window.customElements.define(ViewCuentas.is, ViewCuentas);
+  </script>
+</dom-module>

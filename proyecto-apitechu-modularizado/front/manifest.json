@@ -1,0 +1,7 @@
+{
+  "name": "colapi-front",
+  "short_name": "colapi-front",
+  "description": "cola pi app front",
+  "start_url": "/",
+  "display": "standalone"
+}
