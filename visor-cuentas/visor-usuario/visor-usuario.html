@@ -1,0 +1,61 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html" />
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html"/>
+
+<dom-module id="visor-usuario">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h1>Sus cuentas</h1>
+    <template is="dom-repeat" items="{{accounts}}">
+      <h3>IBAN - {{item.IBAN}}</h3>
+      <h3>Saldo - {{item.balance}}</h3>
+      </br>
+    </template>
+
+    <iron-ajax auto=""
+      id="getUsers"
+      url="http://localhost:3000/apitechu/v2/users/{{userid}}"
+      handle-as="json"
+      on-response="showData">
+  </template>
+
+  <script>
+    /**
+     * `visor-cuentas`
+     * Visor de cuentas
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class VisorUsuario extends Polymer.Element {
+      static get is() { return 'visor-usuario'; }
+      static get properties() {
+        return {
+          userid : {
+            type: Number
+          }, iban: {
+            type: String
+          }, balance: {
+            type: Number
+          }, accounts: {
+            type: Array
+          }
+        };
+      }
+
+      showData(data) {
+        console.log(data.detail.response);
+        this.accounts = data.detail.response;
+        // this.iban = data.detail.response[0].IBAN;
+        // this.balance = data.detail.response[0].balance;
+      }
+    }
+
+    window.customElements.define(VisorUsuario.is, VisorUsuario);
+  </script>
+</dom-module>
