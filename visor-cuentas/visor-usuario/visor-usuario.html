@@ -1,6 +1,6 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html" />
-<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html"/>
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html" />
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html"/>
 
 <dom-module id="visor-usuario">
   <template>
@@ -9,16 +9,18 @@
         display: block;
       }
     </style>
-    <h1>Sus cuentas</h1>
+<!--    <h1>Sus cuentas</h1>
     <template is="dom-repeat" items="{{accounts}}">
       <h3>IBAN - {{item.IBAN}}</h3>
       <h3>Saldo - {{item.balance}}</h3>
-      </br>
-    </template>
+    </br> -->
 
-    <iron-ajax auto=""
+    <h1>Sus datos personales:</h1>
+    <h3> Nombre completo: [[iban]]</h3>
+
+  <iron-ajax auto=""
       id="getUsers"
-      url="http://localhost:3000/apitechu/v2/users/{{userid}}"
+      url="http://localhost:3000/colapi/v3/users/{{userid}}"
       handle-as="json"
       on-response="showData">
   </template>
@@ -50,9 +52,11 @@
 
       showData(data) {
         console.log(data.detail.response);
-        this.accounts = data.detail.response;
-        // this.iban = data.detail.response[0].IBAN;
-        // this.balance = data.detail.response[0].balance;
+      //  this.accounts = data.detail.response;
+     //    this.iban = data.detail.response[0].IBAN;
+     //    this.balance = data.detail.response[0].balance;
+
+        this.iban = data.detail.response[0].first_name + " " + data.detail.response[0].last_name;
       }
     }
 
