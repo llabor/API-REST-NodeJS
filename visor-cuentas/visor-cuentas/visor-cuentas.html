@@ -1,6 +1,6 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html" />
-<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html"/>
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html" />
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html"/>
 
 <dom-module id="visor-cuentas">
   <template>
@@ -18,7 +18,7 @@
 
     <iron-ajax auto=""
       id="getAccounts"
-      url="http://localhost:3000/apitechu/v2/users/{{userid}}/accounts"
+      url="http://localhost:3000/colapi/v3/users/{{userid}}/accounts"
       handle-as="json"
       on-response="showData">
   </template>
@@ -49,6 +49,7 @@
       }
 
       showData(data) {
+        console.log('response');
         console.log(data.detail.response);
         this.accounts = data.detail.response;
         // this.iban = data.detail.response[0].IBAN;
