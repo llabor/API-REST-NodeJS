@@ -1,7 +1,7 @@
 # API REST
-Ejemplos y documentación:
+Tecnologías utilizadas:
 - Node JS
-- express
+- Docker
 - Polymer
 - Git
 - MongoDB
